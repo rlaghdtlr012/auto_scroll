@@ -4,7 +4,7 @@ scrollButton.id = 'scrollButton';
 scrollButton.textContent = 'Start Scroll';
 scrollButton.style.position = 'fixed';
 scrollButton.style.right = '20px';
-scrollButton.style.bottom = '20px';
+scrollButton.style.bottom = '60px';
 scrollButton.style.padding = '10px 20px';
 scrollButton.style.backgroundColor = '#007bff';
 scrollButton.style.color = 'white';
@@ -29,7 +29,7 @@ function createSpeedButton(id: string, text: string): HTMLButtonElement {
     button.style.display = 'none'; // Initially hidden
     button.style.position = 'fixed';
     button.style.right = '20px';
-    button.style.bottom = `${60 + (40 * ['Slow', 'Normal', 'Fast'].indexOf(id))}px`;
+    button.style.bottom = `${100 + (40 * ['Slow', 'Normal', 'Fast'].indexOf(id))}px`;
     button.style.padding = '10px 20px';
     button.style.backgroundColor = '#28a745';
     button.style.color = 'white';
@@ -75,21 +75,21 @@ scrollButton.addEventListener('click', () => {
 // Event listeners for speed buttons
 slowButton.addEventListener('click', () => {
     stopAutoScroll();
-    startAutoScroll(2); // 느림 (10ms 간격으로 2px 스크롤)
+    startAutoScroll(1); // 느림 (10ms 간격으로 1px 스크롤)
     scrollButton.textContent = 'Stop Scroll';
     hideSpeedButtons();
 });
 
 normalButton.addEventListener('click', () => {
     stopAutoScroll();
-    startAutoScroll(4); // 보통 (10ms 간격으로 4px 스크롤)
+    startAutoScroll(2); // 보통 (10ms 간격으로 2px 스크롤)
     scrollButton.textContent = 'Stop Scroll';
     hideSpeedButtons();
 });
 
 fastButton.addEventListener('click', () => {
     stopAutoScroll();
-    startAutoScroll(8); // 빠름 (10ms 간격으로 8px 스크롤)
+    startAutoScroll(3); // 빠름 (10ms 간격으로 3px 스크롤)
     scrollButton.textContent = 'Stop Scroll';
     hideSpeedButtons();
 });
