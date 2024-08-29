@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "scroll auto",
+  "version": "0.1",
+  "permissions": ["activeTab"],
+  "description": "Automatically scrolls the page at a customizable speed.",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["index.js"]
+    }
+  ]
+}
