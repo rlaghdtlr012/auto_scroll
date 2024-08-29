@@ -1,4 +1,4 @@
-// Create the main scroll button element and style it
+// 기본 버튼 생성
 const scrollButton = document.createElement('button');
 scrollButton.id = 'scrollButton';
 scrollButton.textContent = 'Start Scroll';
@@ -17,7 +17,7 @@ document.body.appendChild(scrollButton);
 let isScrolling: boolean = false;
 let scrollInterval: number | undefined;
 
-// Create speed control buttons
+// 스크롤 속도 버튼 생성
 const slowButton = createSpeedButton('Slow', '느림');
 const normalButton = createSpeedButton('Normal', '보통');
 const fastButton = createSpeedButton('Fast', '빠름');
@@ -26,7 +26,7 @@ function createSpeedButton(id: string, text: string): HTMLButtonElement {
     const button = document.createElement('button');
     button.id = id;
     button.textContent = text;
-    button.style.display = 'none'; // Initially hidden
+    button.style.display = 'none';
     button.style.position = 'fixed';
     button.style.right = '20px';
     button.style.bottom = `${100 + (40 * ['Slow', 'Normal', 'Fast'].indexOf(id))}px`;
@@ -44,6 +44,13 @@ function createSpeedButton(id: string, text: string): HTMLButtonElement {
 function startAutoScroll(speed: number): void {
     scrollInterval = window.setInterval(() => {
         window.scrollBy(0, speed);
+
+        // 스크롤이 끝까지 갔을 경우, stop scroll
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            stopAutoScroll();
+            scrollButton.textContent = 'Start Scroll';
+            isScrolling = false;
+        }
     }, 10);
 }
 
@@ -59,7 +66,7 @@ function hideSpeedButtons() {
     fastButton.style.display = 'none';
 }
 
-// Toggle scroll button and show speed buttons
+// 스크롤 속도 버튼 토글
 scrollButton.addEventListener('click', () => {
     if (!isScrolling) {
         slowButton.style.display = 'block';
@@ -72,7 +79,7 @@ scrollButton.addEventListener('click', () => {
     isScrolling = !isScrolling;
 });
 
-// Event listeners for speed buttons
+// 스크롤 속도 버튼 이벤트 리스너
 slowButton.addEventListener('click', () => {
     stopAutoScroll();
     startAutoScroll(1); // 느림 (10ms 간격으로 1px 스크롤)
