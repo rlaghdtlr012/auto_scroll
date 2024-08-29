@@ -1,5 +1,5 @@
 "use strict";
-// Create the main scroll button element and style it
+// 기본 버튼 생성
 const scrollButton = document.createElement('button');
 scrollButton.id = 'scrollButton';
 scrollButton.textContent = 'Start Scroll';
@@ -16,7 +16,7 @@ scrollButton.style.zIndex = '1000';
 document.body.appendChild(scrollButton);
 let isScrolling = false;
 let scrollInterval;
-// Create speed control buttons
+// 스크롤 속도 버튼 생성
 const slowButton = createSpeedButton('Slow', '느림');
 const normalButton = createSpeedButton('Normal', '보통');
 const fastButton = createSpeedButton('Fast', '빠름');
@@ -24,7 +24,7 @@ function createSpeedButton(id, text) {
     const button = document.createElement('button');
     button.id = id;
     button.textContent = text;
-    button.style.display = 'none'; // Initially hidden
+    button.style.display = 'none';
     button.style.position = 'fixed';
     button.style.right = '20px';
     button.style.bottom = `${100 + (40 * ['Slow', 'Normal', 'Fast'].indexOf(id))}px`;
@@ -41,6 +41,12 @@ function createSpeedButton(id, text) {
 function startAutoScroll(speed) {
     scrollInterval = window.setInterval(() => {
         window.scrollBy(0, speed);
+        // 스크롤이 끝까지 갔을 경우, stop scroll
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            stopAutoScroll();
+            scrollButton.textContent = 'Start Scroll';
+            isScrolling = false;
+        }
     }, 10);
 }
 function stopAutoScroll() {
@@ -53,7 +59,7 @@ function hideSpeedButtons() {
     normalButton.style.display = 'none';
     fastButton.style.display = 'none';
 }
-// Toggle scroll button and show speed buttons
+// 스크롤 속도 버튼 토글
 scrollButton.addEventListener('click', () => {
     if (!isScrolling) {
         slowButton.style.display = 'block';
@@ -66,7 +72,7 @@ scrollButton.addEventListener('click', () => {
     }
     isScrolling = !isScrolling;
 });
-// Event listeners for speed buttons
+// 스크롤 속도 버튼 이벤트 리스너
 slowButton.addEventListener('click', () => {
     stopAutoScroll();
     startAutoScroll(1); // 느림 (10ms 간격으로 1px 스크롤)
