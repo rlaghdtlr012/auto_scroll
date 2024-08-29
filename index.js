@@ -41,8 +41,10 @@ function createSpeedButton(id, text) {
 function startAutoScroll(speed) {
     scrollInterval = window.setInterval(() => {
         window.scrollBy(0, speed);
+        const totalPageHeight = document.body.scrollHeight;
+        const scrollPoint = window.scrollY + window.innerHeight;
         // 스크롤이 끝까지 갔을 경우, stop scroll
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        if (scrollPoint >= totalPageHeight) {
             stopAutoScroll();
             scrollButton.textContent = 'Start Scroll';
             isScrolling = false;
@@ -53,11 +55,34 @@ function stopAutoScroll() {
     if (scrollInterval !== undefined) {
         clearInterval(scrollInterval);
     }
+    // Remove event listeners for speed buttons
+    slowButton.removeEventListener('click', handleSlowButtonClick);
+    normalButton.removeEventListener('click', handleNormalButtonClick);
+    fastButton.removeEventListener('click', handleFastButtonClick);
 }
 function hideSpeedButtons() {
     slowButton.style.display = 'none';
     normalButton.style.display = 'none';
     fastButton.style.display = 'none';
+}
+// 스크롤 속도 버튼 클릭 핸들러 정의
+function handleSlowButtonClick() {
+    stopAutoScroll();
+    startAutoScroll(1); // 느림 (10ms 간격으로 1px 스크롤)
+    scrollButton.textContent = 'Stop Scroll';
+    hideSpeedButtons();
+}
+function handleNormalButtonClick() {
+    stopAutoScroll();
+    startAutoScroll(2); // 보통 (10ms 간격으로 2px 스크롤)
+    scrollButton.textContent = 'Stop Scroll';
+    hideSpeedButtons();
+}
+function handleFastButtonClick() {
+    stopAutoScroll();
+    startAutoScroll(3); // 빠름 (10ms 간격으로 3px 스크롤)
+    scrollButton.textContent = 'Stop Scroll';
+    hideSpeedButtons();
 }
 // 스크롤 속도 버튼 토글
 scrollButton.addEventListener('click', () => {
@@ -65,29 +90,14 @@ scrollButton.addEventListener('click', () => {
         slowButton.style.display = 'block';
         normalButton.style.display = 'block';
         fastButton.style.display = 'block';
+        // Add event listeners for speed buttons
+        slowButton.addEventListener('click', handleSlowButtonClick);
+        normalButton.addEventListener('click', handleNormalButtonClick);
+        fastButton.addEventListener('click', handleFastButtonClick);
     }
     else {
         scrollButton.textContent = 'Start Scroll';
         stopAutoScroll();
     }
     isScrolling = !isScrolling;
-});
-// 스크롤 속도 버튼 이벤트 리스너
-slowButton.addEventListener('click', () => {
-    stopAutoScroll();
-    startAutoScroll(1); // 느림 (10ms 간격으로 1px 스크롤)
-    scrollButton.textContent = 'Stop Scroll';
-    hideSpeedButtons();
-});
-normalButton.addEventListener('click', () => {
-    stopAutoScroll();
-    startAutoScroll(2); // 보통 (10ms 간격으로 2px 스크롤)
-    scrollButton.textContent = 'Stop Scroll';
-    hideSpeedButtons();
-});
-fastButton.addEventListener('click', () => {
-    stopAutoScroll();
-    startAutoScroll(3); // 빠름 (10ms 간격으로 3px 스크롤)
-    scrollButton.textContent = 'Stop Scroll';
-    hideSpeedButtons();
 });
